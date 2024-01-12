@@ -1,0 +1,6 @@
+body{
+    background-color:Gainsboro;
+}
+
+
+background-image:src={{movie.img.url}};
