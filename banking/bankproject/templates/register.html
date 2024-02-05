@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/registerstyle.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="container">
+        <div class="cover">
+            <div class="front">
+                <img src="{% static 'images/frontImg.jpg' %}" alt="">
+                <div class="text">
+                    <span class="text-1">New User Registration<br></span>
+                    <span class="text-2">Let's get connected</span>
+                </div>
+            </div>
+        </div>
+        <div class="forms">
+            <div class="form-content">
+                <div class="login-form">
+                    <div class="title">Register</div>
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <div class="input-boxes">
+                            <div class="input-box">
+                                <i class="fas fa-user"></i>
+                                <input type="text" placeholder="Enter your Username" id="username" name="username" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" placeholder="Enter your password" id="password" name="password" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" placeholder="Enter your confirmpassword" id="cpassword" name="cpassword" required>
+                            </div>
+                            <div class="button input-box">
+                                <!-- <button type="submit">Submit</button> -->
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+  </div>
+</body>
+</html>
