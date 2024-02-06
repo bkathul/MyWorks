@@ -12,7 +12,7 @@
 <div class="container">
     <h2>Detail Form</h2>
 
-    <form method="post" action="details">
+    <form method="post" action="details" onsubmit="return validate()">
         {% csrf_token %}
         <div class="form-group">
             <label for="uname">Name:</label>
@@ -53,93 +53,58 @@
 
         <div class="form-group">
             <label for="district">District:</label>
-            <select id="district" name="district" onchange="updateBranches()">
-                <option value="kollam">Kollam</option>
-                <option value="alappuzha">Alappuzha</option>
-                <option value="kottayam">Kottayam</option>
-                <option value="idukki">Idukki</option>
-                <option value="ernakulam">Ernakulam</option>
-                <option value="palakkad">Palakkad</option>
-                <option value="kozhikode">Kozhikode</option>
-                <option value="kannur">Kannur</option>
-            </select>
-            <br><br>
-
-
-            <label for="branch">Branch:</label>
-                <select id="branch" name="branch">
-                <!-- Options will be dynamically populated using JavaScript -->
+                <select id="district" onchange="populateBranches()" required>
+                    <option value="" selected disabled> Select district </option>
+                    <option value="kollam">Kollam</option>
+                    <option value="alappuzha">Alappuzha</option>
+                    <option value="kottayam">Kottayam</option>
+                    <option value="idukki">Idukki</option>
+                    <option value="ernakulam">Ernakulam</option>
+                    <option value="palakkad">Palakkad</option>
+                    <option value="kozhikode">Kozhikode</option>
+                    <option value="kannur">Kannur</option>
                 </select>
+            <br><br>
+            <label for="branch">Branch:</label>
+                <select id="branch" required>
+                    <option value="" selected disabled> Select branch </option>
+                </select>
+        <script>
+            var branches={
+                kollam:["Ashtamudi","Punalur","Oachira"],
+                alappuzha:["Kayamkulam","Kuttanad","Cherthala"],
+                kottayam:["Changanassery","Pala","Vaikom"],
+                idukki:["Thodupuzha","Devikulam","Vandiperiyar"],
+                ernakulam:["Aluva","Angamaly","Kochi"],
+                palakkad:["Ottapalam","Alathur","Chittur"],
+                kozhikode:["Beypore","Pantheeramkavu","Feroke"],
+                kannur:["Ezhimala","Payyambalami","Kuthuparamba"],
+                };
+            var districtSelect = document.getElementById("district");
+            var branchSelect = document.getElementById("branch");
 
-            <script>
-                function updateBranches() {
-                    var districtSelect = document.getElementById('district');
-                    var branchSelect = document.getElementById('branch');
+            function populateBranches(){
+                branchSelect.innerHTML = '<option value=""> Select a state</option>';
 
-                    // Clear existing options
-                    branchSelect.innerHTML = '';
-
-                    // Get selected district
-                    var selectedDistrict = districtSelect.value;
-
-                    // Add options based on the selected district
-                    if (selectedDistrict === 'kollam') {
-                        addOption(branchSelect, 'ashtamudi', 'Ashtamudi');
-                        addOption(branchSelect, 'punalur', 'Punalur');
-                        addOption(branchSelect, 'oachira', 'Oachira');
-                        }
-                    else if (selectedDistrict === 'alappuzha') {
-                        addOption(branchSelect, 'kayamkulam', 'Kayamkulam');
-                        addOption(branchSelect, 'kuttanad', 'Kuttanad');
-                        addOption(branchSelect, 'cherthala', 'Cherthala');
-                        }
-                    else if (selectedDistrict === 'kottayam') {
-                        addOption(branchSelect, 'changanassery', 'Changanassery');
-                        addOption(branchSelect, 'pala', 'Pala');
-                        addOption(branchSelect, 'vaikom', 'Vaikom');
-                        }
-                    else if (selectedDistrict === 'idukki') {
-                        addOption(branchSelect, 'thodupuzha', 'Thodupuzha');
-                        addOption(branchSelect, 'devikulam', 'Devikulam');
-                        addOption(branchSelect, 'vandiperiyar', 'Vandiperiyar');
-                        }
-                    else if (selectedDistrict === 'ernakulam') {
-                        addOption(branchSelect, 'aluva', 'Aluva');
-                        addOption(branchSelect, 'angamaly', 'Angamaly');
-                        addOption(branchSelect, 'kochi', 'Kochi');
-                        }
-                    else if (selectedDistrict === 'palakkad') {
-                        addOption(branchSelect, 'ottapalam', 'Ottapalam');
-                        addOption(branchSelect, 'alathur', 'Alathur');
-                        addOption(branchSelect, 'chittur', 'Chittur');
-                        }
-                    else if (selectedDistrict === 'kozhikode') {
-                        addOption(branchSelect, 'beypore', 'Beypore');
-                        addOption(branchSelect, 'pantheeramkavu', 'Pantheeramkavu');
-                        addOption(branchSelect, 'feroke', 'Feroke');
-                        }
-                    else if (selectedDistrict === 'kannur') {
-                        addOption(branchSelect, 'ezhimala', 'Ezhimala');
-                        addOption(branchSelect, 'payyambalam', 'Payyambalami');
-                        addOption(branchSelect, 'kuthuparamba', 'Kuthuparamba');
-                        }
+                var selectedDistrict = districtSelect.value;
+                if(selectedDistrict){
+                    var selectedBranches = branches[selectedDistrict];
+                    selectedBranches.forEach(function(branch){
+                        var option = document.createElement("option");
+                        option.value = branch;
+                        option.text = branch;
+                        branchSelect.appendChild(option);
+                    });
                 }
-                function addOption(select, value, text) {
-                    var option = document.createElement('option');
-                    option.value = value;
-                    option.text = text;
-                    select.add(option);
-                }
-
-                // Initial population of branch based on the default selected district
-                updateBranches();
-            </script>
+            }
+        </script>
 
         </div>
 
         <div class="form-group">
             <label for="account_type">Account type:</label>
             <select id="account_type" name="account_type" required>
+                <option value="" disabled selected>Select Account Type</option>
                 <option value="Savings">Savings</option>
                 <option value="Current">Current</option>
                 <option value="Salary">Salary</option>
@@ -149,13 +114,37 @@
 
         <div class="form-group">
             <label>Materials provide:</label>
-            <input type="checkbox" id="material1" name="material" value="Credit Card"> Credit Card
-            <input type="checkbox" id="material2"  name="material" value="Debit Card"> Debit Card
-            <input type="checkbox" id="material3" name="material" value="Debit Card"> Cheque Book
+            <input type="checkbox" id="material1" name="material" value="Credit"> Credit Card
+            <input type="checkbox" id="material2"  name="material" value="Debit"> Debit Card
+            <input type="checkbox" id="material3" name="material" value="Cheque"> Cheque Book
+
+            <script>
+
+                function validate(){
+                    var valid = false;
+                    if(document.getElementById("material1").checked){
+                        valid = true;
+                    }
+                    else if(document.getElementById("material2").checked){
+                        valid = true;
+                    }
+                    else if(document.getElementById("material3").checked){
+                        valid = true;
+                    }
+                    else{
+                        alert("Please select at least one ")
+                        return false;
+                    }
+                }
+
+            </script>
+
         </div>
 
+
+
         <div>
-            <a href="success"><button style="background-color: green; color: white;">Submit</button></a>
+            <a href="success"><button  onclick="valCheckbox()"  style="background-color: green; color: white;">Submit</button></a>
         </div>
         <br>
     </form>
@@ -163,11 +152,6 @@
     <div style="text-align:center;">
          Back to home? <a href="/">Home</a>
     </div>
-    <br><br>
-    <div>
-    <a href="logout"><button style="background-color: GoldenRod; color: white;">Logout</button></a>
-    </div>
-
 </div>
 </body>
 </html>
